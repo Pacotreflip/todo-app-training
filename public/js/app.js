@@ -30826,25 +30826,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /**
  * Tips:
@@ -30871,21 +30852,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
-        addTodo: function addTodo() {
+        addTodo: function addTodo(text) {
             var _this2 = this;
 
-            var text = this.todoItemText.trim();
-            if (text !== '') {
-                axios.post(window.location.origin + '/api/todos', {
-                    text: text,
-                    done: false
-                }).then(function (response) {
-                    _this2.items.push(response.data);
-                    _this2.todoItemText = '';
-                }).catch(function (e) {
-                    alert(e);
-                });
-            }
+            axios.post(window.location.origin + '/api/todos', {
+                text: text,
+                done: false
+            }).then(function (response) {
+                _this2.items.push(response.data);
+            }).catch(function (e) {
+                alert(e);
+            });
         },
         removeTodo: function removeTodo(todo) {
             var _this3 = this;
@@ -30918,85 +30895,22 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container" }, [
-    _c("div", { staticClass: "box" }, [
-      _c("div", { staticClass: "field is-grouped" }, [
-        _c("p", { staticClass: "control is-expanded" }, [
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.todoItemText,
-                expression: "todoItemText"
-              }
-            ],
-            staticClass: "input",
-            attrs: { type: "text", placeholder: "Nuevo recordatorio" },
-            domProps: { value: _vm.todoItemText },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.todoItemText = $event.target.value
-              }
-            }
-          })
-        ]),
-        _vm._v(" "),
-        _c("p", { staticClass: "control" }, [
-          _c(
-            "a",
-            { staticClass: "button is-info", on: { click: _vm.addTodo } },
-            [_vm._v("\n                    Agregar\n                ")]
-          )
-        ])
-      ])
-    ]),
-    _vm._v(" "),
-    _c(
-      "table",
-      { staticClass: "table is-bordered" },
-      _vm._l(_vm.items, function(todo, index) {
-        return _c("tr", { key: index }, [
-          _c(
-            "td",
-            {
-              staticClass: "is-fullwidth",
-              class: { "is-done": todo.done },
-              staticStyle: { cursor: "pointer" },
-              on: {
-                click: function($event) {
-                  _vm.toggleDone(todo)
-                }
-              }
-            },
-            [
-              _vm._v(
-                "\n                " + _vm._s(todo.text) + "\n            "
-              )
-            ]
-          ),
-          _vm._v(" "),
-          _c("td", { staticClass: "is-narrow" }, [
-            _c(
-              "a",
-              {
-                staticClass: "button is-danger is-small",
-                on: {
-                  click: function($event) {
-                    _vm.removeTodo(todo)
-                  }
-                }
-              },
-              [_vm._v("Eliminar")]
-            )
-          ])
-        ])
-      })
-    )
-  ])
+  return _c(
+    "div",
+    { staticClass: "container" },
+    [
+      _c("todo-input-component", {
+        on: {
+          addTodo: function($event) {
+            _vm.addTodo($event)
+          }
+        }
+      }),
+      _vm._v(" "),
+      _c("table", { staticClass: "table is-bordered" })
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -31139,21 +31053,17 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__(51)
-}
 var normalizeComponent = __webpack_require__(5)
 /* script */
 var __vue_script__ = __webpack_require__(53)
 /* template */
-var __vue_template__ = __webpack_require__(54)
+var __vue_template__ = __webpack_require__(62)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
-var __vue_styles__ = injectStyle
+var __vue_styles__ = null
 /* scopeId */
-var __vue_scopeId__ = "data-v-b6546e06"
+var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
@@ -31186,46 +31096,8 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 51 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(52);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(4)("4f0c4c24", content, false, {});
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-b6546e06\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./TodoInput.vue", function() {
-     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-b6546e06\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./TodoInput.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 52 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(3)(false);
-// imports
-
-
-// module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
-
-// exports
-
-
-/***/ }),
+/* 51 */,
+/* 52 */,
 /* 53 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -31235,20 +31107,89 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    name: "TodoInput"
+    data: function data() {
+        return {
+            todoItemText: ''
+        };
+    },
+
+    methods: {
+        addTodo: function addTodo() {
+            if (this.todoItemText !== '') {
+                this.$emit('addTodo', this.todoItemText);
+                this.todoItemText = '';
+            }
+        }
+    }
 });
 
 /***/ }),
-/* 54 */
+/* 54 */,
+/* 55 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 56 */,
+/* 57 */,
+/* 58 */,
+/* 59 */,
+/* 60 */,
+/* 61 */,
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div")
+  return _c("div", { staticClass: "box" }, [
+    _c("div", { staticClass: "field is-grouped" }, [
+      _c("p", { staticClass: "control is-expanded" }, [
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.todoItemText,
+              expression: "todoItemText"
+            }
+          ],
+          staticClass: "input",
+          attrs: { type: "text", placeholder: "Nuevo recordatorio" },
+          domProps: { value: _vm.todoItemText },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.todoItemText = $event.target.value
+            }
+          }
+        })
+      ]),
+      _vm._v(" "),
+      _c("p", { staticClass: "control" }, [
+        _c("a", { staticClass: "button is-info", on: { click: _vm.addTodo } }, [
+          _vm._v("\n                Agregar\n            ")
+        ])
+      ])
+    ])
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -31259,12 +31200,6 @@ if (false) {
     require("vue-hot-reload-api")      .rerender("data-v-b6546e06", module.exports)
   }
 }
-
-/***/ }),
-/* 55 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);

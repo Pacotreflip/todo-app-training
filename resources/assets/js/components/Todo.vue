@@ -1,26 +1,7 @@
 <template>
     <div class="container">
-        <div class="box">
-            <div class="field is-grouped">
-                <p class="control is-expanded">
-                    <input class="input" type="text" placeholder="Nuevo recordatorio" v-model="todoItemText">
-                </p>
-                <p class="control">
-                    <a class="button is-info" @click="addTodo">
-                        Agregar
-                    </a>
-                </p>
-            </div>
-        </div>
+        <todo-input-component v-on:addTodo="addTodo($event)"></todo-input-component>
         <table class="table is-bordered">
-            <tr v-for="(todo, index) in items" :key="index">
-                <td class="is-fullwidth" style="cursor: pointer" :class="{ 'is-done': todo.done }" @click="toggleDone(todo)">
-                    {{ todo.text }}
-                </td>
-                <td class="is-narrow">
-                    <a class="button is-danger is-small" @click="removeTodo(todo)">Eliminar</a>
-                </td>
-            </tr>
         </table>
     </div>
 </template>
@@ -48,19 +29,15 @@
             })
         },
         methods: {
-            addTodo () {
-                let text = this.todoItemText.trim();
-                if (text !== '') {
-                    axios.post(window.location.origin + '/api/todos', {
-                        text: text,
-                        done: false
-                    }).then(response => {
-                        this.items.push(response.data);
-                        this.todoItemText = '';
-                    }).catch(e => {
-                        alert(e);
-                    });
-                }
+            addTodo (text) {
+                axios.post(window.location.origin + '/api/todos', {
+                    text: text,
+                    done: false
+                }).then(response => {
+                    this.items.push(response.data);
+                }).catch(e => {
+                    alert(e);
+                });
             },
             removeTodo (todo) {
                 axios.delete(window.location.origin + '/api/todos/' + todo.id).then(response => {
