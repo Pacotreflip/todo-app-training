@@ -2,6 +2,14 @@
     <div class="container">
         <todo-input-component v-on:addTodo="addTodo($event)"></todo-input-component>
         <table class="table is-bordered">
+            <todo-item-component v-for="(todo, index) in items"
+                                 :id="todo.id"
+                                 :text="todo.text"
+                                 :done="todo.done"
+                                 :key="index"
+                v-on:removeTodo="removeTodo($event)"
+                v-on:toggleDone="toggleDone($event)"
+            ></todo-item-component>
         </table>
     </div>
 </template>
@@ -39,9 +47,9 @@
                     alert(e);
                 });
             },
-            removeTodo (todo) {
-                axios.delete(window.location.origin + '/api/todos/' + todo.id).then(response => {
-                    this.items = this.items.filter(item => item.id !== todo.id);
+            removeTodo (id) {
+                axios.delete(window.location.origin + '/api/todos/' + id).then(response => {
+                    this.items = this.items.filter(item => item.id !== id);
                 }).catch(e => {
                     alert(e);
                 });
@@ -58,9 +66,3 @@
         }
     }
 </script>
-
-<style>
-    .is-done {
-        text-decoration: line-through;
-    }
-</style>
