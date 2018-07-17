@@ -45,6 +45,7 @@ class Repository implements RepositoryInterface
     public function orderBy($column, $direction = 'ASC')
     {
         $this->model = $this->model->orderBy($column, $direction);
+        return $this;
     }
 
     public function update(array $data, $id)

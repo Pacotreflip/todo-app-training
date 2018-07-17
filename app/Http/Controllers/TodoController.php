@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\Repository;
+use App\Todo;
 use Illuminate\Http\Request;
 
 /**
@@ -15,6 +17,20 @@ use Illuminate\Http\Request;
 class TodoController extends Controller
 {
     /**
+     * @var Todo
+     */
+    protected $model;
+
+    /**
+     * TodoController constructor.
+     * @param Todo $model
+     */
+    public function __construct(Todo $model)
+    {
+        $this->model = new Repository($model);
+    }
+
+    /**
      * Este método del controlador regresa el listado del todos de la app
      * en un response del tipo json ordenados desde el más antiguo al más nuevo.
      *
@@ -22,7 +38,8 @@ class TodoController extends Controller
      */
     public function index()
     {
-        // TODO
+        $records = $this->model->orderBy('created_at')->all();
+        return response()->json($records, 200);
     }
 
     /**
@@ -35,7 +52,8 @@ class TodoController extends Controller
      */
     public function store(Request $request)
     {
-        // TODO
+        $record = $this->model->create($request->all());
+        return response()->json($record, 201);
     }
 
     /**
@@ -48,7 +66,8 @@ class TodoController extends Controller
      */
     public function update($id, Request $request)
     {
-        // TODO
+        $record = $this->model->update($request->all(), $id);
+        return response()->json($record, $id);
     }
 
     /**
@@ -60,6 +79,10 @@ class TodoController extends Controller
      */
     public function delete($id)
     {
-        // TODO
+        try {
+            return response()->json($this->model->destroy($id), 200);
+        } catch (\Exception $e) {
+            return response()->json($e->getMessage(), 400);
+        }
     }
 }
