@@ -9560,39 +9560,39 @@ label.panel-block:hover {
 }
 
 .columns.is-variable.is-0 {
-  --columnGap: 0rem;
+  --columnGap: $i * 0.25rem;
 }
 
 .columns.is-variable.is-1 {
-  --columnGap: 0.25rem;
+  --columnGap: $i * 0.25rem;
 }
 
 .columns.is-variable.is-2 {
-  --columnGap: 0.5rem;
+  --columnGap: $i * 0.25rem;
 }
 
 .columns.is-variable.is-3 {
-  --columnGap: 0.75rem;
+  --columnGap: $i * 0.25rem;
 }
 
 .columns.is-variable.is-4 {
-  --columnGap: 1rem;
+  --columnGap: $i * 0.25rem;
 }
 
 .columns.is-variable.is-5 {
-  --columnGap: 1.25rem;
+  --columnGap: $i * 0.25rem;
 }
 
 .columns.is-variable.is-6 {
-  --columnGap: 1.5rem;
+  --columnGap: $i * 0.25rem;
 }
 
 .columns.is-variable.is-7 {
-  --columnGap: 1.75rem;
+  --columnGap: $i * 0.25rem;
 }
 
 .columns.is-variable.is-8 {
-  --columnGap: 2rem;
+  --columnGap: $i * 0.25rem;
 }
 
 .tile {
@@ -12339,6 +12339,9 @@ label.panel-block:hover {
 
 .b-table .table {
   width: 100%;
+  border: 0.125em solid transparent;
+  border-radius: 3px;
+  border-collapse: separate;
 }
 
 .b-table .table th {
@@ -12358,11 +12361,6 @@ label.panel-block:hover {
   margin-left: 0.5rem;
   margin-right: 0;
   font-size: 1rem;
-  opacity: 0;
-}
-
-.b-table .table th .th-wrap .icon.is-visible {
-  opacity: 1;
 }
 
 .b-table .table th .th-wrap.is-numeric {
@@ -12411,6 +12409,10 @@ label.panel-block:hover {
   background-color: transparent;
 }
 
+.b-table .table tr:not(.is-selected).is-hovered {
+  background: rgba(181, 181, 181, 0.35) !important;
+}
+
 .b-table .table .checkbox-cell {
   width: 40px;
 }
@@ -12432,6 +12434,10 @@ label.panel-block:hover {
 
 .b-table .table .detail td .detail-container {
   padding: 1rem;
+}
+
+.b-table .table:focus {
+  border: 0.125em solid rgba(0, 209, 178, 0.5);
 }
 
 .b-table .table.is-bordered th.is-current-sort,
@@ -12506,21 +12512,7 @@ label.panel-block:hover {
 }
 
 .b-table .level {
-  padding-bottom: 1rem;
-}
-
-.b-table .level .pagination .info {
-  padding-right: 0.5rem;
-}
-
-@media screen and (min-width: 769px), print {
-  .b-table .level .level-left {
-    padding-left: 1rem;
-  }
-
-  .b-table .level .level-right {
-    padding-right: 1rem;
-  }
+  padding-bottom: 1.5rem;
 }
 
 .b-table.is-loading {

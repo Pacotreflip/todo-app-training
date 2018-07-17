@@ -41,27 +41,42 @@
             }
         },
         mounted () {
-            this.items = [
-                { text: 'Primer recordatorio', done: true },
-                { text: 'Segundo recordatorio', done: false },
-                { text: 'Tercero recordatorio', done: false },
-                { text: 'Cuarto recordatorio', done: true },
-                { text: 'Quinto recordatorio', done: false },
-            ]
+            axios.get(window.location.origin + '/api/todos').then(response => {
+                this.items = response.data;
+            }).catch(e => {
+                alert(e);
+            })
         },
         methods: {
             addTodo () {
-                let text = this.todoItemText.trim()
+                let text = this.todoItemText.trim();
                 if (text !== '') {
-                    this.items.push({ text: text, done: false })
-                    this.todoItemText = ''
+                    axios.post(window.location.origin + '/api/todos', {
+                        text: text,
+                        done: false
+                    }).then(response => {
+                        this.items.push(response.data);
+                        this.todoItemText = '';
+                    }).catch(e => {
+                        alert(e);
+                    });
                 }
             },
             removeTodo (todo) {
-                this.items = this.items.filter(item => item !== todo)
+                axios.delete(window.location.origin + '/api/todos/' + todo.id).then(response => {
+                    this.items = this.items.filter(item => item.id !== todo.id);
+                }).catch(e => {
+                    alert(e);
+                });
             },
             toggleDone (todo) {
-                todo.done = !todo.done
+                axios.put(window.location.origin + '/api/todos/' + todo.id, {
+                    done: !todo.done
+                }).then(response => {
+                    todo.done = response.data.done;
+                }).catch(e => {
+                    alert(e);
+                });
             }
         }
     }
