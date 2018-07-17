@@ -15,6 +15,8 @@ window.Vue = require('vue');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 Vue.component('todo-component', require('./components/Todo.vue'));
+Vue.component('todo-item-component', require('./components/TodoItem.vue'));
+Vue.component('todo-input-component', require('./components/TodoInput.vue'));
 
 const app = new Vue({
     el: '#app'
