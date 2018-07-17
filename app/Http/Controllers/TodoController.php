@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Repositories\Repository;
 use App\Todo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 /**
  * En esta clase deben implementar los metodos vacios de acuerdo a lo
@@ -52,6 +53,15 @@ class TodoController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'text' => 'required|max:255',
+            'done' => 'boolean',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
+
         $record = $this->model->create($request->all());
         return response()->json($record, 201);
     }
@@ -66,8 +76,22 @@ class TodoController extends Controller
      */
     public function update($id, Request $request)
     {
-        $record = $this->model->update($request->all(), $id);
-        return response()->json($record, $id);
+        $validator = Validator::make($request->all(), [
+            'text' => 'max:255',
+            'done' => 'boolean',
+        ]);
+
+        try {
+            if ($validator->fails()) {
+                return response()->json($validator->errors(), 400);
+            }
+            $record = $this->model->find($id);
+            $record = $this->model->update($request->all(), $id);
+
+            return response()->json($record, 200);
+        } catch (\Exception $e) {
+            return response()->json($e->getMessage());
+        }
     }
 
     /**
@@ -80,6 +104,7 @@ class TodoController extends Controller
     public function delete($id)
     {
         try {
+            $this->model->find($id);
             return response()->json($this->model->destroy($id), 200);
         } catch (\Exception $e) {
             return response()->json($e->getMessage(), 400);

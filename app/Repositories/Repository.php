@@ -39,7 +39,7 @@ class Repository implements RepositoryInterface
 
     public function find($id)
     {
-        return $this->model->find($id);
+        return $this->model->findOrFail($id);
     }
 
     public function orderBy($column, $direction = 'ASC')
@@ -51,6 +51,7 @@ class Repository implements RepositoryInterface
     public function update(array $data, $id)
     {
         $recod = $this->find($id);
-        return $recod->update($data);
+        $recod->update($data);
+        return $recod;
     }
 }
