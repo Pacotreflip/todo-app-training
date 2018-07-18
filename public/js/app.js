@@ -1456,6 +1456,17 @@ var todosStore = new Vuex.Store({
             }).catch(function (e) {
                 alert(e);
             });
+        },
+        toggleDone: function toggleDone(_ref4, todo) {
+            _objectDestructuringEmpty(_ref4);
+
+            axios.put(window.location.origin + '/api/todos/' + todo.id, {
+                done: !todo.done
+            }).then(function (response) {
+                todo.done = response.data.done;
+            }).catch(function (e) {
+                alert(e);
+            });
         }
     }
 });
@@ -30873,13 +30884,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             this.$store.dispatch('removeTodo', id);
         },
         toggleDone: function toggleDone(todo) {
-            axios.put(window.location.origin + '/api/todos/' + todo.id, {
-                done: !todo.done
-            }).then(function (response) {
-                todo.done = response.data.done;
-            }).catch(function (e) {
-                alert(e);
-            });
+            this.$store.dispatch('toggleDone', todo);
         }
     }
 });

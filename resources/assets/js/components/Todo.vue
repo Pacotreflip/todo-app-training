@@ -38,13 +38,7 @@
                 this.$store.dispatch('removeTodo', id);
             },
             toggleDone (todo) {
-                axios.put(window.location.origin + '/api/todos/' + todo.id, {
-                    done: !todo.done
-                }).then(response => {
-                    todo.done = response.data.done;
-                }).catch(e => {
-                    alert(e);
-                });
+                this.$store.dispatch('toggleDone', todo);
             }
         }
     }

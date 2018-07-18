@@ -52,6 +52,15 @@ const todosStore = new Vuex.Store({
             }).catch(e => {
                 alert(e);
             });
+        },
+        toggleDone ({}, todo) {
+            axios.put(window.location.origin + '/api/todos/' + todo.id, {
+                done: !todo.done
+            }).then(response => {
+                todo.done = response.data.done;
+            }).catch(e => {
+                alert(e);
+            });
         }
     }
 });
