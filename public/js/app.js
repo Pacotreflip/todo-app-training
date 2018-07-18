@@ -1443,6 +1443,19 @@ var todosStore = new Vuex.Store({
             }).catch(function (e) {
                 alert(e);
             });
+        },
+        removeTodo: function removeTodo(_ref3, id) {
+            var _this2 = this;
+
+            _objectDestructuringEmpty(_ref3);
+
+            axios.delete(window.location.origin + '/api/todos/' + id).then(function (response) {
+                _this2.state.items = _this2.state.items.filter(function (item) {
+                    return item.id !== id;
+                });
+            }).catch(function (e) {
+                alert(e);
+            });
         }
     }
 });
@@ -30857,15 +30870,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             });
         },
         removeTodo: function removeTodo(id) {
-            var _this = this;
-
-            axios.delete(window.location.origin + '/api/todos/' + id).then(function (response) {
-                _this.items = _this.items.filter(function (item) {
-                    return item.id !== id;
-                });
-            }).catch(function (e) {
-                alert(e);
-            });
+            this.$store.dispatch('removeTodo', id);
         },
         toggleDone: function toggleDone(todo) {
             axios.put(window.location.origin + '/api/todos/' + todo.id, {

@@ -35,11 +35,7 @@
                 });
             },
             removeTodo (id) {
-                axios.delete(window.location.origin + '/api/todos/' + id).then(response => {
-                    this.items = this.items.filter(item => item.id !== id);
-                }).catch(e => {
-                    alert(e);
-                });
+                this.$store.dispatch('removeTodo', id);
             },
             toggleDone (todo) {
                 axios.put(window.location.origin + '/api/todos/' + todo.id, {

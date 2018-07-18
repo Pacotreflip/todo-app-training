@@ -45,6 +45,13 @@ const todosStore = new Vuex.Store({
             }).catch(e => {
                 alert(e);
             });
+        },
+        removeTodo({}, id) {
+            axios.delete(window.location.origin + '/api/todos/' + id).then(response => {
+                this.state.items = this.state.items.filter(item => item.id !== id);
+            }).catch(e => {
+                alert(e);
+            });
         }
     }
 });
