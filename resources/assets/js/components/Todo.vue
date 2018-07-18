@@ -15,36 +15,23 @@
 </template>
 
 <script>
-    /**
-     * Tips:
-     * - En mounted pueden obtener el listado del backend de todos y dentro de la promesa de axios asirnarlo
-     *   al arreglo que debe tener una estructura similar a los datos de ejemplo.
-     * - En addTodo, removeTodo y toggleTodo deben hacer los cambios pertinentes para que las modificaciones,
-     *   addiciones o elimicaiones tomen efecto en el backend asi como la base de datos.
-     */
+    import {mapState} from 'vuex';
+
     export default {
         data () {
-            return {
-                todoItemText: '',
-                items: [],
-            }
+            return { }
+        },
+        computed: {
+            ...mapState(['items'])
         },
         mounted () {
-            axios.get(window.location.origin + '/api/todos').then(response => {
-                this.items = response.data;
-            }).catch(e => {
-                alert(e);
-            })
+            this.$store.dispatch('fetch');
         },
         methods: {
             addTodo (text) {
-                axios.post(window.location.origin + '/api/todos', {
+                this.$store.dispatch('addTodo', {
                     text: text,
                     done: false
-                }).then(response => {
-                    this.items.push(response.data);
-                }).catch(e => {
-                    alert(e);
                 });
             },
             removeTodo (id) {

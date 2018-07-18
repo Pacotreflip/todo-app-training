@@ -1389,6 +1389,7 @@ module.exports = __webpack_require__(53);
 /* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
+function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -1410,8 +1411,45 @@ Vue.component('todo-component', __webpack_require__(39));
 Vue.component('todo-item-component', __webpack_require__(45));
 Vue.component('todo-input-component', __webpack_require__(50));
 
+var todosStore = new Vuex.Store({
+    state: {
+        items: []
+    },
+    mutations: {
+        FETCH: function FETCH(state, todos) {
+            state.items = todos;
+        }
+    },
+    actions: {
+        fetch: function fetch(_ref) {
+            var commit = _ref.commit;
+
+            return axios.get(window.location.origin + '/api/todos').then(function (response) {
+                return commit('FETCH', response.data);
+            }).catch(function (e) {
+                alert(e);
+            });
+        },
+        addTodo: function addTodo(_ref2, todo) {
+            var _this = this;
+
+            _objectDestructuringEmpty(_ref2);
+
+            axios.post(window.location.origin + '/api/todos', {
+                text: todo.text,
+                done: false
+            }).then(function (response) {
+                _this.state.items.push(response.data);
+            }).catch(function (e) {
+                alert(e);
+            });
+        }
+    }
+});
+
 var app = new Vue({
-  el: '#app'
+    el: '#app',
+    store: todosStore
 });
 
 /***/ }),
@@ -30779,6 +30817,9 @@ module.exports = function listToStyles (parentId, list) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(57);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 //
 //
 //
@@ -30796,48 +30837,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
-/**
- * Tips:
- * - En mounted pueden obtener el listado del backend de todos y dentro de la promesa de axios asirnarlo
- *   al arreglo que debe tener una estructura similar a los datos de ejemplo.
- * - En addTodo, removeTodo y toggleTodo deben hacer los cambios pertinentes para que las modificaciones,
- *   addiciones o elimicaiones tomen efecto en el backend asi como la base de datos.
- */
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
-        return {
-            todoItemText: '',
-            items: []
-        };
+        return {};
     },
-    mounted: function mounted() {
-        var _this = this;
 
-        axios.get(window.location.origin + '/api/todos').then(function (response) {
-            _this.items = response.data;
-        }).catch(function (e) {
-            alert(e);
-        });
+    computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["mapState"])(['items'])),
+    mounted: function mounted() {
+        this.$store.dispatch('fetch');
     },
 
     methods: {
         addTodo: function addTodo(text) {
-            var _this2 = this;
-
-            axios.post(window.location.origin + '/api/todos', {
+            this.$store.dispatch('addTodo', {
                 text: text,
                 done: false
-            }).then(function (response) {
-                _this2.items.push(response.data);
-            }).catch(function (e) {
-                alert(e);
             });
         },
         removeTodo: function removeTodo(id) {
-            var _this3 = this;
+            var _this = this;
 
             axios.delete(window.location.origin + '/api/todos/' + id).then(function (response) {
-                _this3.items = _this3.items.filter(function (item) {
+                _this.items = _this.items.filter(function (item) {
                     return item.id !== id;
                 });
             }).catch(function (e) {

@@ -19,6 +19,38 @@ Vue.component('todo-component', require('./components/Todo.vue'));
 Vue.component('todo-item-component', require('./components/TodoItem.vue'));
 Vue.component('todo-input-component', require('./components/TodoInput.vue'));
 
+const todosStore = new Vuex.Store({
+    state: {
+        items: []
+    },
+    mutations: {
+        FETCH(state, todos) {
+            state.items = todos;
+        }
+    },
+    actions: {
+        fetch({commit}) {
+            return axios.get(window.location.origin + '/api/todos')
+                .then(response => commit('FETCH', response.data))
+                .catch(e => {
+                    alert(e);
+                })
+        },
+        addTodo({}, todo) {
+            axios.post(window.location.origin + '/api/todos', {
+                text: todo.text,
+                done: false
+            }).then(response => {
+                this.state.items.push(response.data);
+            }).catch(e => {
+                alert(e);
+            });
+        }
+    }
+});
+
+
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    store: todosStore
 });
